@@ -1,21 +1,21 @@
 apiVersion: v1
 kind: Service
 metadata:
-  namespace: anotherclass-221
-  name: api-tester-2212
+  namespace: guest-namespace
+  name: guest-service
   labels:
-    part-of: k8s-anotherclass
-    component: backend-server
-    name: api-tester
-    instance: api-tester-2212
+    part-of: guest-part
+    component: guest-backend-server
+    name: guest-service
+    instance: guest-service-instance
     version: 1.0.0
     managed-by: kubectl
 spec:
   selector:
-    part-of: k8s-anotherclass
-    component: backend-server
-    name: api-tester
-    instance: api-tester-2212
+    part-of: guest-part
+    component: guest-backend-server
+    name: guest-service
+    instance:  guest-service-instance
   ports:
     - port: 80
       targetPort: http

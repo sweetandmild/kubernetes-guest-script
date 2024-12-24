@@ -67,8 +67,6 @@ pipeline {
             steps {
                 // K8S 배포
                 sh "kubectl apply -f ./${CLASS_NUM}/deploy/k8s/namespace.yaml"
-                sh "kubectl apply -f ./${CLASS_NUM}/deploy/k8s/configmap.yaml"
-                sh "kubectl apply -f ./${CLASS_NUM}/deploy/k8s/secret.yaml"
                 sh "kubectl apply -f ./${CLASS_NUM}/deploy/k8s/service.yaml"
                 sh "kubectl apply -f ./${CLASS_NUM}/deploy/k8s/deployment.yaml"
             }
