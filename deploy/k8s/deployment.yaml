@@ -37,6 +37,23 @@ spec:
           ports:
             - containerPort: 8080
               name: http
+          envFrom:
+            - configMapRef:
+                name: guest-configmap
+          resources:
+            requests:
+              memory: "100Mi"
+              cpu: "100m"
+            limits:
+              memory: "200Mi"
+              cpu: "200m"
+          volumeMounts:
+            - name: secret-datasource
+              mountPath: /usr/src/myapp/datasource
+      volumes:
+        - name: secret-datasource
+          secret:
+            secretName: guest-secret
           resources:
             requests:
               memory: "100Mi"
