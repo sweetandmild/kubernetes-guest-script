@@ -6,8 +6,8 @@ metadata:
   labels:
     part-of: guest-part
     component: guest-backend-server
-    name: guest-replicas
-    instance: guest-replicas-instance
+    name: guest-deployment
+    instance: guest-deployment-instance
     version: 1.0.0
     managed-by: kubectl
 spec:
@@ -15,8 +15,8 @@ spec:
     matchLabels:
       part-of: guest-part
       component: guest-backend-server
-      name: guest-replicas
-      instance: guest-replicas-instance
+      name: guest-pod
+      instance: guest-pod-instance
   replicas: 2
   strategy:
     type: RollingUpdate
