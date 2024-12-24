@@ -1,7 +1,7 @@
 FROM openjdk:21-jdk
 
 ARG guest.jar
-
+CMD pwd
 COPY guest.jar app.jar
 
 # 환경변수 선언
