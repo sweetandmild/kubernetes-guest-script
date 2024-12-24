@@ -15,7 +15,6 @@ spec:
       part-of: guest-part
       component: guest-backend-server
       name: guest
-      instance: guest-instance
   replicas: 2
   strategy:
     type: RollingUpdate
@@ -25,7 +24,6 @@ spec:
         part-of: guest-part
         component: guest-backend-server
         name: guest
-        instance: guest-instance
         version: 1.0.0
     spec:
       nodeSelector:
@@ -54,11 +52,5 @@ spec:
         - name: secret-datasource
           secret:
             secretName: guest-secret
-          resources:
-            requests:
-              memory: "100Mi"
-              cpu: "100m"
-            limits:
-              memory: "200Mi"
-              cpu: "200m"
+          
           
