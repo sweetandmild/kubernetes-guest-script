@@ -6,16 +6,14 @@ metadata:
   labels:
     part-of: guest-part
     component: guest-backend-server
-    name: guest-service
-    instance: guest-service-instance
+    name: guest
     version: 1.0.0
     managed-by: kubectl
 spec:
   selector:
     part-of: guest-part
     component: guest-backend-server
-    name: guest-service
-    instance:  guest-service-instance
+    name: guest
   ports:
     - port: 80
       targetPort: http
