@@ -33,7 +33,7 @@ spec:
           image: academyitwill/guest
           imagePullPolicy: Always
           ports:
-            - containerPort: 8080
+            - containerPort: 80
               name: http
           envFrom:
             - configMapRef:
