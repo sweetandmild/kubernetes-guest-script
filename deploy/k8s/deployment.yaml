@@ -38,13 +38,13 @@ spec:
           envFrom:
             - configMapRef:
                 name: guest-configmap
-          resources:
-            requests:
-              memory: "500Mi"
-              cpu: "100m"
-            limits:
-              memory: "1000Mi"
-              cpu: "200m"
+          # resources:
+          #   requests:
+          #     memory: "500Mi"
+          #     cpu: "100m"
+          #   limits:
+          #     memory: "1000Mi"
+          #     cpu: "200m"
           volumeMounts:
             - name: secret-datasource
               mountPath: /usr/src/myapp/datasource
