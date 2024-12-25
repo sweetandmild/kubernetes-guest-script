@@ -40,10 +40,10 @@ spec:
                 name: guest-configmap
           resources:
             requests:
-              memory: "100Mi"
+              memory: "500Mi"
               cpu: "100m"
             limits:
-              memory: "200Mi"
+              memory: "1000Mi"
               cpu: "200m"
           volumeMounts:
             - name: secret-datasource
