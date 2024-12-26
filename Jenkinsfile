@@ -9,82 +9,52 @@ pipeline {
     environment {
         // 본인의 username으로 하실 분은 수정해주세요.
         DOCKERHUB_USERNAME = 'academyitwill'
-        GITHUB_URL = 'https://github.com/2024-07-JAVA-DEVELOPER-155/kubernetes-anotherclass-sprint2.git'
-
-        // 실습 넘버링
-        CLASS_NUM = '2212'
+        GITHUB_URL = 'https://github.com/2024-07-JAVA-DEVELOPER-155/kubernetes-guest-script.git'
+        // deployment.yaml -> image: academyitwill/api-tester:v1.0.0        
     }
-    
-    stages {
-        stage('소스파일 체크아웃') {
-            steps {
-                // 소스코드를 가져올 Github 주소
-                git branch: 'main', url: 'https://github.com/2024-07-JAVA-DEVELOPER-155/kubernetes-anotherclass-api-tester.git'
-            }
-        }
 
-        stage('소스 빌드') {
+    stages {
+        stage('Source Build') {
             steps {
+                // 소스파일 체크아웃
+                git branch: 'main', url: 'https://github.com/2024-07-JAVA-DEVELOPER-155/kubernetes-guest-source.git'
+
+                // 소스 빌드
                 // 755권한 필요 (윈도우에서 Git으로 소스 업로드시 권한은 644)
                 sh "chmod +x ./gradlew"
                 sh "gradle clean build"
             }
         }
 
-        stage('릴리즈파일 체크아웃') {
-            steps {
-                checkout scmGit(branches: [[name: '*/main']],
-                    extensions: [[$class: 'SparseCheckoutPaths',
-                    sparseCheckoutPaths: [[path: "/${CLASS_NUM}"]]]],
-					userRemoteConfigs: [[url: "${GITHUB_URL}"]])
-            }
-        }
+        stage('Container Build') {
+            steps {	
+                // 릴리즈파일 체크아웃
+                checkout scmGit(branches: [[name: '*/main']], 
+                    userRemoteConfigs: [[url: "${GITHUB_URL}"]])
 
-        stage('컨테이너 빌드') {
-            steps {
                 // jar 파일 복사
-                sh "cp ./build/libs/app-0.0.1-SNAPSHOT.jar ./${CLASS_NUM}/build/docker/app-0.0.1-SNAPSHOT.jar"
+                sh "cp ./build/libs/guest.jar ./build/docker/app.jar"
 
-                // 도커 빌드
-                sh "docker build -t ${DOCKERHUB_USERNAME}/api-tester:v1.0.0 ./${CLASS_NUM}/build/docker"
-            }
-        }
-
-        stage('컨테이너 업로드') {
-            steps {
-                // DockerHub로 이미지 업로드
+                // 컨테이너 빌드 및 업로드
+                sh "docker build -t ${DOCKERHUB_USERNAME}/guest ./build/docker"
                 script{
                     if (DOCKERHUB_USERNAME != "academyitwill") {
-                        echo "docker push ${DOCKERHUB_USERNAME}/api-tester:v1.0.0"
+                        echo "docker push ${DOCKERHUB_USERNAME}/guest"
                     } else {
-                        sh "docker push ${DOCKERHUB_USERNAME}/api-tester:v1.0.0"
+                        sh "docker push ${DOCKERHUB_USERNAME}/guest"
                     }
                 }
             }
         }
 
-        stage('쿠버네티스 배포') {
+        stage('K8S Deploy') {
             steps {
-                // K8S 배포
-                sh "kubectl apply -f ./${CLASS_NUM}/deploy/k8s/namespace.yaml"
-                sh "kubectl apply -f ./${CLASS_NUM}/deploy/k8s/configmap.yaml"
-                sh "kubectl apply -f ./${CLASS_NUM}/deploy/k8s/secret.yaml"
-                sh "kubectl apply -f ./${CLASS_NUM}/deploy/k8s/service.yaml"
-                sh "kubectl apply -f ./${CLASS_NUM}/deploy/k8s/deployment.yaml"
-            }
-        }
-
-        stage('배포 확인') {
-            steps {
-                // 10초 대기
-                sh "sleep 10"
-
-                // K8S 배포
-                sh "kubectl get -f ./${CLASS_NUM}/deploy/k8s/namespace.yaml"
-                sh "kubectl get -f ./${CLASS_NUM}/deploy/k8s/configmap.yaml"
-                sh "kubectl get -f ./${CLASS_NUM}/deploy/k8s/secret.yaml"
-                sh "kubectl get -f ./${CLASS_NUM}/deploy/k8s/service.yaml"
-                sh "kubectl get -f ./${CLASS_NUM}/deploy/k8s/deployment.yaml"
+                // 쿠버네티스 배포 
+                sh "kubectl apply -f ./deploy/k8s/namespace.yaml"
+				sh "kubectl apply -f ./deploy/k8s/configmap.yaml"
+				sh "kubectl apply -f ./deploy/k8s/secret.yaml"
+				sh "kubectl apply -f ./deploy/k8s/service.yaml"
+				sh "kubectl apply -f ./deploy/k8s/deployment.yaml"
             }
         }
     }
