@@ -59,7 +59,6 @@ pipeline {
 				sh "kubectl apply -f ./${STEP_NUM}/deploy/k8s/secret.yaml"
 				sh "kubectl apply -f ./${STEP_NUM}/deploy/k8s/deployment.yaml"
 				sh "kubectl apply -f ./${STEP_NUM}/deploy/k8s/service.yaml"
-				
 				sh "kubectl rollout restart deployment guest-deployment -n guest-namespace-step2"
             }
         }
