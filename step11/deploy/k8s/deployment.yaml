@@ -31,7 +31,7 @@ spec:
       containers:
         - name: guest-container
           image: academyitwill/guest:latest
-          imagePullPolicy: Always
+          #imagePullPolicy: Always
           env:
           - name: USER_PROFILE
             value: remote-oracle 
