@@ -12,7 +12,7 @@ pipeline {
         GITHUB_URL = 'https://github.com/2024-07-JAVA-DEVELOPER-155/kubernetes-guest-script.git'
         // deployment.yaml -> image: academyitwill/guest
          // 실습 step 번호 - (수정x)
-        STEP_NUM = 'step22'
+        STEP_NUM = 'step21'
     }
 
     stages {
@@ -53,12 +53,12 @@ pipeline {
 
         stage('K8S Deploy') {
             steps {
-                // 쿠버네티스 배포 gkgk
+                // 쿠버네티스 배포 
                 sh "kubectl apply -f ./${STEP_NUM}/deploy/k8s/namespace.yaml"
 				sh "kubectl apply -f ./${STEP_NUM}/deploy/k8s/configmap.yaml"
 				sh "kubectl apply -f ./${STEP_NUM}/deploy/k8s/secret.yaml"
-				sh "kubectl apply -f ./${STEP_NUM}/deploy/k8s/service.yaml"
 				sh "kubectl apply -f ./${STEP_NUM}/deploy/k8s/deployment.yaml"
+				sh "kubectl apply -f ./${STEP_NUM}/deploy/k8s/service.yaml"
             }
         }
     }
