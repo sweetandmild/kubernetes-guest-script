@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: guest-namespace
+  name: guest-namespace-step1
   labels:
     part-of: guest-part
     managed-by: kubectl
