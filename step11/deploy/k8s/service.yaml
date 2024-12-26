@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  namespace: guest-namespace
+  namespace: guest-namespace-step1
   name: guest-service
   labels:
     part-of: guest-part
