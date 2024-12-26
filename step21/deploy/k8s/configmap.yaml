@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  namespace: guest-namespace
+  namespace: guest-namespace-step2
   name: guest-configmap
   labels:
     part-of: guest-part
