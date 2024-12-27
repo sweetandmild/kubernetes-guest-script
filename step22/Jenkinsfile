@@ -1,5 +1,9 @@
 pipeline {
     agent any
+    tools {
+        gradle 'gradle-7.6.1'
+        jdk 'jdk-17'
+    }
 
     environment {
         // 본인의 username으로 하실 분은 수정해주세요.
@@ -38,7 +42,7 @@ pipeline {
                 sh "docker build -t ${DOCKERHUB_USERNAME}/guest ./${STEP_NUM}/build/docker"
                 script{
                     if (DOCKERHUB_USERNAME == "academyitwill") {
-                        echo "docker push ${DOCKERHUB_USERNAME}/guest"
+                        sh "docker push ${DOCKERHUB_USERNAME}/guest"
                     } else {
                         sh "docker push ${DOCKERHUB_USERNAME}/guest"
                     }
