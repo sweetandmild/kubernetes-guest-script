@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: guest-namespace-step2
+  name: guest-deployment
+  labels:
+    part-of: guest-part
+    component: guest-backend-server
+    name: guest
+    version: 1.0.0
+    managed-by: kubectl
+spec:
+  selector:
+    matchLabels:
+      part-of: guest-part
+      component: guest-backend-server
+      name: guest
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        part-of: guest-part
+        component: guest-backend-server
+        name: guest
+        version: 1.0.0
+    spec:
+      nodeSelector:
+        kubernetes.io/hostname: k8s-master
+      containers:
+        - name: guest-container
+          image: academyitwill/guest:latest
+          #imagePullPolicy: Always
+          env:
+          - name: USER_PROFILE
+            value: remote-oracle 
+          ports:
+            - containerPort: 80
+              name: http
+          envFrom:
+            - configMapRef:
+                name: guest-configmap
+          # resources:
+          #   requests:
+          #     memory: "500Mi"
+          #     cpu: "100m"
+          #   limits:
+          #     memory: "1000Mi"
+          #     cpu: "200m"
+          volumeMounts:
+            - name: secret-datasource
+              mountPath: /usr/src/myapp/datasource
+      volumes:
+        - name: secret-datasource
+          secret:
+            secretName: guest-secret
+          
+          
