@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   namespace: guest-namespace-step2
-  name: guest-deployment
+  name: guest-deployment-1
   labels:
     part-of: guest-part
     component: guest-backend-server
@@ -25,13 +25,14 @@ spec:
         component: guest-backend-server
         name: guest
         version: 1.0.0
+        blue-green-no: "1"
     spec:
       nodeSelector:
         kubernetes.io/hostname: k8s-master
       containers:
-        - name: guest-container
-          image: academyitwill/guest:latest
-          #imagePullPolicy: Always
+        - name: guest-container-1
+          image: academyitwill/guest:v1.0.0
+          imagePullPolicy: Always
           env:
           - name: USER_PROFILE
             value: remote-oracle 

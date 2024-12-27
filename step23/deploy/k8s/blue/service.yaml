@@ -14,6 +14,7 @@ spec:
     part-of: guest-part
     component: guest-backend-server
     name: guest
+    blue-green-no: "1"
   ports:
     - port: 80
       targetPort: http

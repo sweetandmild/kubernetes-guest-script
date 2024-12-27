@@ -3,10 +3,9 @@ pipeline {
 
     environment {
         // 본인의 username으로 하실 분은 수정해주세요.
-        GITHUB_URL = 'https://github.com/k8s-1pro/kubernetes-anotherclass-sprint2.git'
-
+        GITHUB_URL = 'https://github.com/2024-07-JAVA-DEVELOPER-155/kubernetes-guest-script.git'
         // 실습 넘버링
-        CLASS_NUM = '2213'
+         STEP_NUM = 'step23'
     }
 
     stages {
@@ -14,18 +13,18 @@ pipeline {
             steps {
                 checkout scmGit(branches: [[name: '*/main']],
                         extensions: [[$class: 'SparseCheckoutPaths',
-                                      sparseCheckoutPaths: [[path: "/${CLASS_NUM}"]]]],
+                                      sparseCheckoutPaths: [[path: "/${STEP_NUM}"]]]],
                         userRemoteConfigs: [[url: "${GITHUB_URL}"]])
             }
         }
 
         stage('쿠버네티스 Blue배포') {
             steps {
-                sh "kubectl apply -f ./${CLASS_NUM}/deploy/k8s/blue/namespace.yaml"
-                sh "kubectl apply -f ./${CLASS_NUM}/deploy/k8s/blue/configmap.yaml"
-                sh "kubectl apply -f ./${CLASS_NUM}/deploy/k8s/blue/secret.yaml"
-                sh "kubectl apply -f ./${CLASS_NUM}/deploy/k8s/blue/service.yaml"
-                sh "kubectl apply -f ./${CLASS_NUM}/deploy/k8s/blue/deployment.yaml"
+                sh "kubectl apply -f ./${STEP_NUM}/deploy/k8s/blue/namespace.yaml"
+                sh "kubectl apply -f ./${STEP_NUM}/deploy/k8s/blue/configmap.yaml"
+                sh "kubectl apply -f ./${STEP_NUM}/deploy/k8s/blue/secret.yaml"
+                sh "kubectl apply -f ./${STEP_NUM}/deploy/k8s/blue/service.yaml"
+                sh "kubectl apply -f ./${STEP_NUM}/deploy/k8s/blue/deployment.yaml"
             }
         }
 
